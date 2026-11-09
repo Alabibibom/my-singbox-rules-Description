@@ -1,0 +1,59 @@
+
+name: Build sing-box rule sets
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-rule-sets
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install sing-box
+        shell: bash
+        run: |
+          VERSION="1.14.4"
+          ARCH="amd64"
+          URL="https://github.com/SagerNet/sing-box/releases/download/v${VERSION}/sing-box-${VERSION}-linux-${ARCH}.tar.gz"
+
+          curl -fL --retry 3 "$URL" -o sing-box.tar.gz
+          mkdir -p sing-box-temp
+          tar -xzf sing-box.tar.gz -C sing-box-temp
+
+          cp "sing-box-temp/sing-box-${VERSION}-linux-${ARCH}/sing-box" ./sing-box
+          chmod +x ./sing-box
+
+          ./sing-box version
+
+      - name: Build rule sets
+        env:
+          SING_BOX_BIN: ./sing-box
+        run: |
+          chmod +x update.sh
+          ./update.sh
+
+      - name: Publish rule sets to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add public/rules/
+
+          if git diff --cached --quiet; then
+            echo "No rule changes."
+          else
+            git commit -m "Update sing-box rule sets"
+            git push origin HEAD:main
+          fi
