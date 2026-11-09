@@ -17,7 +17,7 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 declare -A SOURCES=(
   ["hagezi-pro"]="https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/pro.txt"
   ["adrules-cn"]="https://raw.githubusercontent.com/Cats-Team/AdRules/main/dns.txt"
-  ["anti-ad"]="https://anti-ad.net/adguard.txt"
+  ["anti-malware"]="https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareAdGuardHome.txt"
 )
 
 # Make sure the compiler is the intended sing-box version.
