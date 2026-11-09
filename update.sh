@@ -32,7 +32,11 @@ if ! "$SING_BOX" version | grep -qF "$SING_BOX_VERSION"; then
   exit 1
 fi
 
-for name in "${!SOURCES[@]}"; do
+for name in \
+  geosite-hagezi-pro \
+  geosite-chn-adrules \
+  geosite-dandelion-sprout-anti-malware
+do
   url="${SOURCES[$name]}"
   input="${TMP_DIR}/${name}.txt"
   output="${TMP_DIR}/${name}.srs"
@@ -82,7 +86,7 @@ for name in "${!SOURCES[@]}"; do
   sha256sum "$final"
 done
 
-# Write a checksum manifest after all four builds.
+# Write a checksum manifest after all three builds.
 (
   cd "$OUT_DIR"
   sha256sum \
