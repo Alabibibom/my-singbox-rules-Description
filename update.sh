@@ -82,7 +82,8 @@ for name in "${!SOURCES[@]}"; do
   sha256sum "$final"
 done
 
-# Write a checksum manifest after all three builds (
+# Write a checksum manifest after all three builds.
+(
   cd "$OUT_DIR"
   sha256sum \
     hagezi-pro.srs \
