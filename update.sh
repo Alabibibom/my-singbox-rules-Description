@@ -82,10 +82,12 @@ for name in "${!SOURCES[@]}"; do
   sha256sum "$final"
 done
 
-# Write a checksum manifest after all three builds succeed.
-(
+# Write a checksum manifest after all three builds (
   cd "$OUT_DIR"
-  sha256sum hagezi-pro.srs adrules-cn.srs anti-ad.srs
+  sha256sum \
+    hagezi-pro.srs \
+    chn-adrules.srs \
+    dandelion-sprout-anti-malware.srs
 ) > "${TMP_DIR}/SHA256SUMS"
 
 mv -f "${TMP_DIR}/SHA256SUMS" "${OUT_DIR}/SHA256SUMS"
